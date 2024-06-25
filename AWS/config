@@ -22,7 +22,7 @@ s3 =
 
 
 
-[profile dataproc_in]
+[profile dataproc]
 s3 =
    endpoint_url=http://p-ceph-norm-inside.pjlab.org.cn
 
