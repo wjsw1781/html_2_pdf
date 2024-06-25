@@ -177,13 +177,14 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
 
 
 aws_config='dataproc_out'
+aws_config='dataproc'
 in_s3_file='s3://llm-pdf-text/20240624/after_tiqu_html_content_then_pdf/v003/part-667957fa7be8-004719.jsonl'
 out_s3_file='s3://llm-pdf-text/20240624/after_html_save_pdf_ok/v003/part-667957fa7be8-004719.jsonl'
 error_out_s3_file='s3://llm-pdf-text/20240624/after_html_save_pdf_error/v003/part-667957fa7be8-004719.jsonl'
 
 
 # 线程数量
-max_work = 10
+max_work = 100
 
 # 进程标识
 process_num=100

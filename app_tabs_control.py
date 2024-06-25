@@ -5,14 +5,6 @@ import random
 import time
 from DrissionPage import ChromiumOptions, ChromiumPage
 from loguru import logger
-from random_user_agent.user_agent import UserAgent
-
-from random_user_agent.params import  OperatingSystem
-
-
-operating_systems = [OperatingSystem.WINDOWS.value]   
-
-UA = UserAgent(limit=100,operating_systems=operating_systems)
 
 
 def get_chrome_page(pid_user_data_path,wutou=True,user_port=9222,co=None):

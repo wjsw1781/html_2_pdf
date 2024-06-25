@@ -2,3 +2,5 @@ user_data/**
 
 
 **.jsonl
+__pycache__/app_tabs_control.cpython-311.pyc
+**.pyc
