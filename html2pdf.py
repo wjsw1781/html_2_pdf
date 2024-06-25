@@ -106,37 +106,7 @@ def get_queue_list():
 
 
 
-def html_to_pdf(josnl):
-    global all_tabs,result_queue,error_queue
-    tid = int(str(threading.current_thread()._name).split('_')[-1])
-    current_tab :ChromiumTab =all_tabs[tid]
-    item=json.loads(josnl)
 
-    new_html=item['new_html']
-    track_id=item['track_id']
-
-    temp_html_file=f'{os.path.abspath(f"./temp_html/{track_id}.html")}'
-    with open(temp_html_file,'w',encoding='utf-8') as ff:
-        ff.write(new_html)
-
-    try:
-        current_tab.get(temp_html_file,show_errmsg=True,timeout=3)
-        pdf_binary=current_tab.save(as_pdf=True)
-        pdf_base64=pdfbinary_2_base_64(pdf_binary)
-        item['pdf_base64']=pdf_base64
-        new_josnl=json.dumps(item,ensure_ascii=False)
-
-        result_queue.put(new_josnl)
-
-        logger.success(f'  {temp_html_file}  执行成功   ')
-
-    except Exception as e:
-        logger.error(f'  {temp_html_file}  执行失败  {e}  ')
-        item['error_msg']=str(e)
-        new_josnl=json.dumps(item,ensure_ascii=False)
-
-        error_queue.put(item)
-        return
     
 
 def queue_to_local_to_s3(aws_config,out_s3_file):
@@ -176,6 +146,39 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
     return False
 
 
+def html_to_pdf(josnl):
+    global all_tabs,result_queue,error_queue
+    tid = int(str(threading.current_thread()._name).split('_')[-1])
+    current_tab :ChromiumTab =all_tabs[tid]
+    item=json.loads(josnl)
+
+    new_html=item['new_html']
+    track_id=item['track_id']
+
+    temp_html_file=f'{os.path.abspath(f"./temp_html/{track_id}.html")}'
+    with open(temp_html_file,'w',encoding='utf-8') as ff:
+        ff.write(new_html)
+
+    try:
+        current_tab.get(temp_html_file,show_errmsg=True,timeout=3)
+        pdf_binary=current_tab.save(as_pdf=True)
+        pdf_base64=pdfbinary_2_base_64(pdf_binary)
+        item['pdf_base64']=pdf_base64
+        new_josnl=json.dumps(item,ensure_ascii=False)
+
+        result_queue.put(new_josnl)
+
+        logger.success(f'  {temp_html_file}  执行成功   ')
+
+    except Exception as e:
+        logger.error(f'  {temp_html_file}  执行失败  {e}  ')
+        item['error_msg']=str(e)
+        new_josnl=json.dumps(item,ensure_ascii=False)
+
+        error_queue.put(item)
+        return
+
+
 aws_config='dataproc_out'
 aws_config='dataproc'
 in_s3_file='s3://llm-pdf-text/20240624/after_tiqu_html_content_then_pdf/v003/part-667957fa7be8-004719.jsonl'
@@ -184,7 +187,7 @@ error_out_s3_file='s3://llm-pdf-text/20240624/after_html_save_pdf_error/v003/par
 
 
 # 线程数量
-max_work = 100
+max_work = 1
 
 # 进程标识
 process_num=100
