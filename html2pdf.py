@@ -168,7 +168,7 @@ def html_to_pdf(josnl):
 
         result_queue.put(new_josnl)
 
-        logger.success(f'  {temp_html_file}  执行成功   ')
+        # logger.success(f'  {temp_html_file}  执行成功   ')
 
     except Exception as e:
         logger.error(f'  {temp_html_file}  执行失败  {e}  ')
