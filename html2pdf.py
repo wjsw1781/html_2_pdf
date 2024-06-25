@@ -160,7 +160,7 @@ def html_to_pdf(josnl):
         ff.write(new_html)
 
     try:
-        current_tab.get(temp_html_file,show_errmsg=True,timeout=3)
+        current_tab.get('file://'+temp_html_file,show_errmsg=True,timeout=3)
         pdf_binary=current_tab.save(as_pdf=True)
         pdf_base64=pdfbinary_2_base_64(pdf_binary)
         item['pdf_base64']=pdf_base64
