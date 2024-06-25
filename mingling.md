@@ -645,7 +645,8 @@ logger_file_name=f'./logs/{os.path.basename(__file__)}_log.log'
 logger.add(logger_file_name, format='{time} {level} {message}')
 
 
-
+git config --global http.proxy 10.1.11.100:8086 
+git config --global https.proxy 10.1.11.100:8086 
 
 
 git config user.name 'wzq'
