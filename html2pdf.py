@@ -133,7 +133,7 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
 
     with open(output_local_file,'w',encoding='utf-8') as ff:
         while not error_queue.empty():
-            new_josnl=result_queue.get()
+            new_josnl=error_queue.get()
             ff.write(new_josnl+'\n')
 
     cmds=f'aws s3 --profile {aws_config} mv {output_local_file} {error_out_s3_file}'
@@ -235,7 +235,7 @@ if __name__ == '__main__':
     for i,josnl in enumerate(all_josnl):
 
         while executor._work_queue.qsize() > max_work:
-            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() } 完成个数 {result_queue.qsize()}  失败个数 {error_queue.qsize()}   处理速度 {i/(time.time()-time_start)}   ')
+            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() } 完成个数 {result_queue.qsize()}  失败个数 {error_queue.qsize()}   处理速度 {(result_queue.qsize()+error_queue.qsize())/(time.time()-time_start)}   ')
             time.sleep(2)
             time.sleep(2)
             continue
