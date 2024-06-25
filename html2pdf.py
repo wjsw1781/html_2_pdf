@@ -119,7 +119,7 @@ def queue_to_local_to_s3(aws_config,out_s3_file):
             ff.write(new_josnl+'\n')
 
     cmds=f'aws s3 --profile {aws_config} mv {output_local_file} {out_s3_file}'
-    
+    logger.info(cmds)
     for i in range(10):
         status=os.system(cmds)
         if status==0:
@@ -137,6 +137,7 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
             ff.write(new_josnl+'\n')
 
     cmds=f'aws s3 --profile {aws_config} mv {output_local_file} {error_out_s3_file}'
+    logger.info(cmds)
     
     for i in range(10):
         status=os.system(cmds)
@@ -187,7 +188,7 @@ error_out_s3_file='s3://llm-pdf-text/20240624/after_html_save_pdf_error/v004/par
 
 
 # 线程数量
-max_work = 300
+max_work = 150
 
 # 进程标识
 process_num=100
@@ -199,11 +200,12 @@ wutou=True
 pid_user_data_path=os.path.abspath(f'./user_data/{process_num}')
 page=get_chrome_page(pid_user_data_path,wutou=wutou,user_port=9222+process_num)
 
-
+logger.info('开始开启tab')
 #工作节点tab
 all_tabs=[]
 for i in range(max_work):
     all_tabs.append(page.new_tab())
+logger.info('完成开启tab')
 
 # 结果保存队列 线程安全
 result_queue = get_queue_list()
