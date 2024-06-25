@@ -176,7 +176,7 @@ def html_to_pdf(josnl):
         item['error_msg']=str(e)
         new_josnl=json.dumps(item,ensure_ascii=False)
 
-        error_queue.put(item)
+        error_queue.put(new_josnl)
         return
 
 
