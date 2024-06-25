@@ -1,0 +1,158 @@
+[plugins]
+endpoint = awscli_plugin_endpoint
+
+
+
+
+[awspublic]
+
+
+
+
+[default]
+s3 =
+    
+    
+    endpoint_url=http://10.140.14.204:80
+
+
+[profile dataproc_out]
+s3 =
+   endpoint_url=http://p-ceph-norm-outside.pjlab.org.cn
+
+
+
+[profile dataproc_in]
+s3 =
+   endpoint_url=http://p-ceph-norm-inside.pjlab.org.cn
+
+[profile sss]
+s3 =
+   
+   
+   endpoint_url=http://p-ceph-norm-inside.pjlab.org.cn
+
+
+[profile pnorm_2]
+s3 =
+   
+   
+   endpoint_url=http://p-ceph-norm-inside.pjlab.org.cn
+
+
+[profile sssout]
+s3 =
+   
+   
+   endpoint_url=http://p-ceph-norm-outside.pjlab.org.cn
+
+[profile ztest]
+s3 =
+   
+   
+   endpoint_url=http://10.140.86.173
+   #endpoint_url=http://p-ceph-norm-outside.pjlab.org.cn   10.140.85.161-200
+   #endpoint_url=http://p-ceph-norm-inside.pjlab.org.cn   10.140.86.161-200
+
+   
+[profile pjq]
+s3 =
+   
+   
+   endpoint_url=http://10.135.3.253:80
+
+[profile cc]
+s3 =
+   endpoint_url=http://10.135.7.249:80
+
+
+[profile new]
+s3 =
+  endpoint_url = http://10.140.86.171
+  # endpoint_url = http://p-ceph-norm-outside.pjlab.org.cn:80
+  # endpoint_url = http://p-ceph-norm-inside.pjlab.org.cn
+  
+[profile pnorm]
+s3 =
+  #endpoint_url = http://10.140.86.171
+  # endpoint_url = http://p-ceph-norm-outside.pjlab.org.cn
+  endpoint_url = http://p-ceph-norm-inside.pjlab.org.cn      
+  
+[profile datacrawler]
+s3 =
+  #endpoint_url = http://10.140.86.171
+  # endpoint_url = http://p-ceph-norm-outside.pjlab.org.cn
+  endpoint_url = http://p-ceph-norm-inside.pjlab.org.cn      
+  
+  
+
+[profile test]
+s3 =
+   #; endpoint_url = http://10.140.86.171
+   endpoint_url = http://10.140.86.188 
+  # endpoint_url = http://p-ceph-norm-outside.pjlab.org.cn
+  #endpoint_url = http://p-ceph-norm-inside.pjlab.org.cn      
+  
+  
+
+[profile s2]
+s3 =
+  addressing_style = path
+  endpoint_url = http://10.140.27.254:80
+
+[profile snew]
+s3 =
+   
+   
+   endpoint_url=http://10.140.27.254:80
+
+[profile sjq]
+s3 =
+   
+   
+   endpoint_url=http://10.140.2.204:80
+[profile lc]
+s3 =
+  endpoint_url = http://10.140.86.161:80
+
+
+[profile snew_xuchao]
+s3 =
+   
+   
+   endpoint_url=http://10.140.27.254:80
+
+
+[profile yt]
+s3 =
+   
+   
+   endpoint_url=http://10.135.3.248:80
+
+[profile perf]
+s3 =
+   
+   
+   #endpoint_url=http://10.140.86.207:80
+   endpoint_url=http://p-ceph-perf-inside.pjlab.org.cn
+   #endpoint_url=http://p-ceph-perf-outside.pjlab.org.cn
+
+
+[profile aws]
+s3 =
+   
+   
+
+[profile aaa]
+s3 =
+   #endpoint_url=http://10.140.14.204:80
+   endpoint_url=http://s3.cn-north-1.amazonaws.com.cn
+
+
+[profile bos]
+s3 =
+   #endpoint_url=http://10.140.14.204:80
+   endpoint_url=https://s3.bj.bcebos.com
+
+
+
