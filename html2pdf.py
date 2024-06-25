@@ -132,7 +132,7 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
     output_local_file=os.path.abspath(f'./error_jsonl/{base_name}')
 
     with open(output_local_file,'w',encoding='utf-8') as ff:
-        while not result_queue.empty():
+        while not error_queue.empty():
             new_josnl=result_queue.get()
             ff.write(new_josnl+'\n')
 
