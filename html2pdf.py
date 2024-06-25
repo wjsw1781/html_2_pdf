@@ -222,16 +222,18 @@ os.makedirs(os.path.abspath('./user_data/'), exist_ok=True)
 
 if __name__ == '__main__':
 
+
     local_base_s3_file=cp_s3_file(aws_config,in_s3_file)
     if not local_base_s3_file:
         raise ValueError('  cp_s3_file  执行失败  ')
     
+    time_start=int(time.time())
     all_josnl=open(local_base_s3_file,'r',encoding='utf-8')
 
     for i,josnl in enumerate(all_josnl):
 
         while executor._work_queue.qsize() > max_work:
-            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() } 完成个数 {result_queue.qsize()}  失败个数 {error_queue.qsize()}')
+            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() } 完成个数 {result_queue.qsize()}  失败个数 {error_queue.qsize()}   处理速度 {i/(time.time()-time_start)}   ')
             time.sleep(2)
             time.sleep(2)
             continue
@@ -258,6 +260,8 @@ if __name__ == '__main__':
     
     # 批量删除本地文件夹
     shutil.rmtree(os.path.abspath('./temp_html/'), ignore_errors=True)
+
+    page.quit()
 
     logger.info(' control c  ----> ')
     logger.info('<----  退出线程池  ----> ')
