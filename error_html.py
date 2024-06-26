@@ -196,6 +196,7 @@ wutou=True
 pid_user_data_path=os.path.abspath(f'./user_data/{process_num}')
 page=get_chrome_page(pid_user_data_path,wutou=wutou,user_port=9222+process_num)
 
+
 logger.info('开始开启tab')
 #工作节点tab
 all_tabs=[]
@@ -212,7 +213,7 @@ if __name__ == '__main__':
 
     
     time_start=int(time.time())
-    all_error_html=os.path.
+    all_error_html=os.listdir
 
     for i,josnl in enumerate(all_error_html):
 
