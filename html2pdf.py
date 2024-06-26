@@ -188,7 +188,7 @@ error_out_s3_file='s3://llm-pdf-text/20240624/after_html_save_pdf_error/v004/par
 
 
 # 线程数量
-max_work = 150
+max_work = 100
 
 # 进程标识
 process_num=100
