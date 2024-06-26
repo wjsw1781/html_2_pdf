@@ -147,36 +147,26 @@ def error_queue_to_local_to_s3(aws_config,error_out_s3_file):
     return False
 
 
-def html_to_pdf(josnl):
+def error_html_open(temp_html_file):
     global all_tabs,result_queue,error_queue
     tid = int(str(threading.current_thread()._name).split('_')[-1])
     current_tab :ChromiumTab =all_tabs[tid]
-    item=json.loads(josnl)
 
-    new_html=item['new_html']
-    track_id=item['track_id']
-
-    temp_html_file=f'{os.path.abspath(f"./temp_html/{track_id}.html")}'
-    with open(temp_html_file,'w',encoding='utf-8') as ff:
-        ff.write(new_html)
+    save_pdf=temp_html_file+".pdf"
 
     try:
         current_tab.get('file://'+temp_html_file,show_errmsg=True,timeout=3)
         pdf_binary=current_tab.save(as_pdf=True)
-        pdf_base64=pdfbinary_2_base_64(pdf_binary)
-        item['pdf_base64']=pdf_base64
-        new_josnl=json.dumps(item,ensure_ascii=False)
-
-        result_queue.put(new_josnl)
+        # pdf_base64=pdfbinary_2_base_64(pdf_binary)
+        # ff=open(save_pdf,'wb')
+        # ff.write(pdf_binary)
+        # ff.close()
+        # os.remove(save_pdf)
+        os.remove(temp_html_file)
 
         # logger.success(f'  {temp_html_file}  执行成功   ')
-
     except Exception as e:
         logger.error(f'  {temp_html_file}  执行失败  {e}  ')
-        item['error_msg']=str(e)
-        new_josnl=json.dumps(item,ensure_ascii=False)
-
-        error_queue.put(new_josnl)
         return
 
 
@@ -184,7 +174,7 @@ aws_config='dataproc_out'
 aws_config='dataproc'
 
 # 线程数量
-max_work = 1
+max_work = 10
 
 # 进程标识
 process_num=101
@@ -211,15 +201,15 @@ executor = ThreadPoolExecutor(max_work)
 
 if __name__ == '__main__':
 
-    
+    path_error_dir='./error_html'
     time_start=int(time.time())
-    all_error_html=os.listdir
+    all_error_html=list(os.listdir(path_error_dir))
 
-    for i,josnl in enumerate(all_error_html):
+    for i,html in enumerate(os.listdir(path_error_dir)):
+        error_html_file_path=os.path.abspath(os.path.join(path_error_dir,html))
 
         while executor._work_queue.qsize() > max_work:
-            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() } 完成个数 {result_queue.qsize()}  失败个数 {error_queue.qsize()}   处理速度 {(result_queue.qsize()+error_queue.qsize())/(time.time()-time_start)}   ')
-            time.sleep(2)
+            logger.info(f'<----  线程池已满  ----> { executor._work_queue.qsize() }    ')
             time.sleep(2)
             continue
 
@@ -227,24 +217,10 @@ if __name__ == '__main__':
             logger.info('<----  退出线程池  ----> ')
             break
 
-
-        executor.submit(html_to_pdf, josnl,)
+        executor.submit(error_html_open, error_html_file_path,)
 
 
     executor.shutdown(wait=True)
-    all_josnl.close()
-
-    # 处理成功队列
-    queue_to_local_to_s3(aws_config,out_s3_file)
-    # 处理失败队列
-    error_queue_to_local_to_s3(aws_config,error_out_s3_file)
-
-    
-    # 删除本地文件
-    os.remove(local_base_s3_file)
-    
-    # 批量删除本地文件夹
-    shutil.rmtree(os.path.abspath('./temp_html/'), ignore_errors=True)
 
     page.quit()
 
